@@ -1,0 +1,37 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bm6reahxybfxo"]
+
+[ext_resource type="FontFile" uid="uid://clj7d8108m11q" path="res://styling/BounceHouse-Regular.otf" id="1_3iuyp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke7fe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_80mxd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u306f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k14bu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onlkn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2usnm"]
+
+[resource]
+Button/colors/font_color = Color(0.921569, 0.337255, 0.294118, 1)
+Button/colors/font_focus_color = Color(0.980392, 0.619608, 0.576471, 1)
+Button/colors/font_hover_color = Color(0.9799, 0.618175, 0.572718, 1)
+Button/font_sizes/font_size = 96
+Button/fonts/font = ExtResource("1_3iuyp")
+Button/styles/disabled = SubResource("StyleBoxEmpty_ke7fe")
+Button/styles/focus = SubResource("StyleBoxEmpty_80mxd")
+Button/styles/hover = SubResource("StyleBoxEmpty_u306f")
+Button/styles/normal = SubResource("StyleBoxEmpty_k14bu")
+Button/styles/pressed = SubResource("StyleBoxEmpty_onlkn")
+HSeparator/constants/separation = 30
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_2usnm")
+Label/font_sizes/font_size = 96
+Label/fonts/font = ExtResource("1_3iuyp")
+LinkButton/font_sizes/font_size = 48
+LinkButton/fonts/font = ExtResource("1_3iuyp")
+RichTextLabel/font_sizes/normal_font_size = 96
+RichTextLabel/fonts/normal_font = ExtResource("1_3iuyp")
+infoLabel/base_type = &"Label"
+infoLabel/font_sizes/font_size = 48

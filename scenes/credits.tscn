@@ -1,0 +1,120 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyv4w0rdr31pa"]
+
+[ext_resource type="Script" path="res://scripts/credits.gd" id="1_gwdiv"]
+[ext_resource type="Shader" path="res://resources/game.gdshader" id="2_qro6f"]
+[ext_resource type="Theme" uid="uid://bm6reahxybfxo" path="res://styling/theme.tres" id="3_38cy0"]
+[ext_resource type="Script" path="res://scripts/back.gd" id="5_imshp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5c8b"]
+shader = ExtResource("2_qro6f")
+shader_parameter/numDivisions = 96
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jomwf"]
+
+[node name="credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_gwdiv")
+
+[node name="background" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_s5c8b")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -960.0
+offset_right = 960.0
+offset_bottom = 960.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_jomwf")
+expand_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -318.0
+offset_top = -230.5
+offset_right = 318.0
+offset_bottom = 230.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="logo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_38cy0")
+theme_override_colors/default_color = Color(1, 0.713726, 0.694118, 1)
+theme_override_constants/table_v_separation = 50
+theme_override_constants/line_separation = 100
+theme_override_font_sizes/normal_font_size = 128
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Bubble Fall"
+fit_content = true
+autowrap_mode = 0
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_38cy0")
+
+[node name="jocelynText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_38cy0")
+theme_type_variation = &"infoLabel"
+text = "Game by Jocelyn Baker"
+horizontal_alignment = 1
+
+[node name="jocelynLink" type="LinkButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_38cy0")
+text = "jocelynbaker.ca"
+uri = "https://jocelynbaker.ca"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_38cy0")
+
+[node name="musicText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_38cy0")
+theme_type_variation = &"infoLabel"
+text = "Music by Eric Matyas"
+horizontal_alignment = 1
+
+[node name="musicLink" type="LinkButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_38cy0")
+text = "soundimage.org"
+uri = "https://www.soundimage.org"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_38cy0")
+
+[node name="back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_38cy0")
+text = "Back"
+script = ExtResource("5_imshp")
+
+[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]

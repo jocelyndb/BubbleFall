@@ -1,0 +1,129 @@
+[gd_scene load_steps=17 format=3 uid="uid://lgcuncjqkgri"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_vlvl1"]
+[ext_resource type="Shader" path="res://resources/game.gdshader" id="1_y2dn6"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="2_v52so"]
+[ext_resource type="PackedScene" uid="uid://os1q4xt0ut1t" path="res://scenes/cavern.tscn" id="3_fsse7"]
+[ext_resource type="Texture2D" uid="uid://c75v0uia4t6y" path="res://resources/sprites/pin.png" id="4_gghkp"]
+[ext_resource type="Script" path="res://scripts/pop_counter.gd" id="4_nutns"]
+[ext_resource type="Texture2D" uid="uid://ld7o70ydkip2" path="res://resources/sprites/duck.png" id="5_jpkeh"]
+[ext_resource type="Theme" uid="uid://bm6reahxybfxo" path="res://styling/theme.tres" id="6_lg2u6"]
+[ext_resource type="AudioStream" uid="uid://cywv854phbjs0" path="res://sounds/jump.sfxr" id="7_0iafg"]
+[ext_resource type="Script" path="res://scripts/pop_player.gd" id="7_x1yel"]
+[ext_resource type="AudioStream" uid="uid://pf6c8h133hyo" path="res://sounds/Moonlight-Flying_Looping.mp3" id="9_20idk"]
+[ext_resource type="AudioStream" uid="uid://dba2d8wyfub8f" path="res://sounds/death.sfxr" id="10_eijj1"]
+[ext_resource type="Script" path="res://scripts/control_buttons.gd" id="12_0kql4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ucx7i"]
+shader = ExtResource("1_y2dn6")
+shader_parameter/numDivisions = 96
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lx531"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h3boq"]
+radius = 72.0
+height = 144.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_vlvl1")
+
+[node name="background" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ucx7i")
+offset_right = 1920.0
+offset_bottom = 1920.0
+texture = SubResource("NoiseTexture2D_lx531")
+expand_mode = 2
+
+[node name="Player" type="CharacterBody2D" parent="."]
+collision_mask = 3
+script = ExtResource("2_v52so")
+
+[node name="nailCollider" type="CollisionShape2D" parent="Player"]
+visible = false
+shape = SubResource("CapsuleShape2D_h3boq")
+
+[node name="nail" type="Sprite2D" parent="Player"]
+visible = false
+position = Vector2(0, -1.90735e-06)
+scale = Vector2(1.62, 2.469)
+texture = ExtResource("4_gghkp")
+
+[node name="duckCollider" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_h3boq")
+
+[node name="duck" type="Sprite2D" parent="Player"]
+position = Vector2(0, -1.90735e-06)
+scale = Vector2(4.67, 4.67)
+texture = ExtResource("5_jpkeh")
+
+[node name="cavern" parent="." instance=ExtResource("3_fsse7")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 962.0
+offset_bottom = 172.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+alignment = 1
+
+[node name="popCounter" type="Label" parent="HBoxContainer" groups=["bubbleListeners"]]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("6_lg2u6")
+theme_override_colors/font_color = Color(1, 0.713726, 0.694118, 1)
+text = "Popped: "
+horizontal_alignment = 1
+script = ExtResource("4_nutns")
+
+[node name="popPlayer" type="AudioStreamPlayer2D" parent="." groups=["bubbleListeners"]]
+stream = ExtResource("7_0iafg")
+script = ExtResource("7_x1yel")
+
+[node name="musicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_20idk")
+autoplay = true
+parameters/looping = true
+
+[node name="deathPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_eijj1")
+playback_type = 1
+
+[node name="controlButtons" type="HBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 1106.0
+offset_right = 960.0
+offset_bottom = 1438.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = 450
+alignment = 1
+script = ExtResource("12_0kql4")
+
+[node name="left" type="Button" parent="controlButtons"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("6_lg2u6")
+theme_override_font_sizes/font_size = 250
+text = "<"
+
+[node name="right" type="Button" parent="controlButtons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = ExtResource("6_lg2u6")
+theme_override_font_sizes/font_size = 250
+text = ">"
+
+[connection signal="died" from="Player" to="." method="_on_player_died"]
+[connection signal="finished" from="deathPlayer" to="." method="_on_death_player_finished"]
+[connection signal="button_down" from="controlButtons/left" to="controlButtons" method="_on_left_button_down"]
+[connection signal="button_up" from="controlButtons/left" to="controlButtons" method="_on_left_button_up"]
+[connection signal="button_down" from="controlButtons/right" to="controlButtons" method="_on_right_button_down"]
+[connection signal="button_up" from="controlButtons/right" to="controlButtons" method="_on_right_button_up"]

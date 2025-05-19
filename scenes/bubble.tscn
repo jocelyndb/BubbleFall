@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://dva0heom58bmf"]
+
+[ext_resource type="Script" path="res://scripts/bubble.gd" id="1_enpjl"]
+[ext_resource type="Texture2D" uid="uid://cf5r46ftlvo24" path="res://resources/sprites/bubble.png" id="2_chj4l"]
+[ext_resource type="Texture2D" uid="uid://cwj84xlhf0t70" path="res://resources/sprites/animated_bubble.png" id="3_iqyny"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l4pjp"]
+radius = 13.33
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t2rpj"]
+radius = 13.33
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2o6g"]
+atlas = ExtResource("3_iqyny")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pebil"]
+atlas = ExtResource("3_iqyny")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5cql"]
+atlas = ExtResource("3_iqyny")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_33wpk"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2o6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pebil")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5cql")
+}],
+"loop": false,
+"name": &"pop",
+"speed": 5.0
+}]
+
+[node name="bubble" type="AnimatableBody2D"]
+collision_layer = 2
+script = ExtResource("1_enpjl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l4pjp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -9.53674e-07)
+scale = Vector2(0.833, 0.833)
+texture = ExtResource("2_chj4l")
+region_rect = Rect2(-2.5, -1.25, 3.5, 2.25)
+
+[node name="popTimer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_t2rpj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.833, 0.833)
+sprite_frames = SubResource("SpriteFrames_33wpk")
+animation = &"pop"
+speed_scale = 3.0
+
+[connection signal="timeout" from="popTimer" to="." method="_on_pop_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://bbsqlyjug2xh0"]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_j04bp"]
+[ext_resource type="Script" path="res://scripts/high_score.gd" id="2_mxxy1"]
+[ext_resource type="Shader" path="res://resources/game.gdshader" id="3_fp6ih"]
+[ext_resource type="Theme" uid="uid://bm6reahxybfxo" path="res://styling/theme.tres" id="4_siim1"]
+[ext_resource type="Script" path="res://scripts/start.gd" id="5_t1xow"]
+[ext_resource type="Script" path="res://scripts/last_score.gd" id="5_vfrce"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6f1ir"]
+shader = ExtResource("3_fp6ih")
+shader_parameter/numDivisions = 96
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_45cii"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j04bp")
+
+[node name="background" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_6f1ir")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -960.0
+offset_right = 960.0
+offset_bottom = 960.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_45cii")
+expand_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -124.0
+offset_right = 63.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="logo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_siim1")
+theme_override_colors/default_color = Color(1, 0.713726, 0.694118, 1)
+theme_override_constants/table_v_separation = 50
+theme_override_constants/line_separation = 100
+theme_override_font_sizes/normal_font_size = 128
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Bubble Fall"
+fit_content = true
+autowrap_mode = 0
+
+[node name="highScore" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_siim1")
+horizontal_alignment = 1
+script = ExtResource("2_mxxy1")
+
+[node name="lastScore" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_siim1")
+horizontal_alignment = 1
+script = ExtResource("5_vfrce")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_siim1")
+
+[node name="start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../credits")
+focus_neighbor_top = NodePath("../credits")
+focus_neighbor_right = NodePath("../credits")
+focus_neighbor_bottom = NodePath("../credits")
+theme = ExtResource("4_siim1")
+text = "Start"
+script = ExtResource("5_t1xow")
+
+[node name="options" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_siim1")
+text = "Options"
+
+[node name="credits" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../start")
+focus_neighbor_top = NodePath("../start")
+focus_neighbor_right = NodePath("../start")
+focus_neighbor_bottom = NodePath("../start")
+theme = ExtResource("4_siim1")
+text = "Credits"
+
+[node name="quit" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+focus_neighbor_top = NodePath("../start")
+focus_neighbor_bottom = NodePath("../start")
+theme = ExtResource("4_siim1")
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]
